@@ -1,0 +1,22 @@
+.control{
+    height: 40px;
+    width: 40px;
+    position: absolute;
+    right: 40px;
+    top: 40px;
+    border: 1px solid gray;
+    background-size: 60%;
+    background-position: center;
+    background-repeat: no-repeat;
+    border-radius: 12px;
+}
+.control__play{
+    background-image: url(../img/button/play.svg);
+    background-color: green;
+    opacity: 0.8;
+}    
+.control__pause{
+    background-image: url(../img/button/pause.svg);
+    background-color: red;
+    opacity: 0.8;
+}

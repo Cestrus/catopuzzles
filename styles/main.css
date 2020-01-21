@@ -1,0 +1,14 @@
+@import url('title.css');
+/* @import url('mainContainer.css'); */
+@import url('chooseAndTimePanel.css');
+@import url('plate.css');
+@import url('picesBox.css');
+@import url('control.css');
+
+body{
+    background-image: url(../img/background/background.jpeg);
+    background-size: cover;
+}
+.hide{
+    display: none;
+}
