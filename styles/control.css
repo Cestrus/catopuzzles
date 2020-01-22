@@ -1,9 +1,13 @@
-.control{
-    height: 40px;
-    width: 40px;
+.controlMain{
+    display: flex;
     position: absolute;
     right: 40px;
     top: 40px;
+    margin: 5px;
+}
+.control{
+    height: 40px;
+    width: 40px;    
     border: 1px solid gray;
     background-size: 60%;
     background-position: center;
@@ -19,4 +23,12 @@
     background-image: url(../img/button/pause.svg);
     background-color: red;
     opacity: 0.8;
+}
+.control__endGame{
+    background-image: url(../img/button/end-game.svg);
+    background-color: red;
+    opacity: 0.8;
+}
+.control__endGame--press{
+    background-color: rgb(184, 55, 55);
 }

@@ -9,16 +9,20 @@ export class gameView{
 
         this.plate = document.querySelector('.plate');
 
+        this.control = document.querySelector('.control');
+        
+
         this.nextIMG = nextIMG;
         this.preIMG = preIMG;        
         this.timeCount = timeCount;
 
         // E V E N T S
         //нажатие кнопок пролистывания
-        this.btnPre.addEventListener('click', this.clickBtn);
-        this.btnNext.addEventListener('click', this.clickBtn);
-        this.myBtns.forEach(el=>{el.addEventListener('mousedown', this.pressBtnDown);});
-        this.myBtns.forEach(el=>{el.addEventListener('mouseup', this.pressBtnUp);});
+        this.btnPre.addEventListener('click', this.clickBtn.bind(this));
+        this.btnNext.addEventListener('click', this.clickBtn.bind(this));
+        this.myBtns.forEach(el=>{el.addEventListener('mousedown', this.pressBtnDown.bind(this));});
+        this.myBtns.forEach(el=>{el.addEventListener('mouseup', this.pressBtnUp.bind(this));});
+        this.plate.addEventListener('click', this.startGame.bind(this))
     }
     
     renderChoosePanel(){
@@ -32,15 +36,17 @@ export class gameView{
             <div class="timeCounter"><p>${this.timeCount}</p></div>`
     }
 
-    renderIMG(obj){
+    renderIMG(obj){        
+        if(!obj.numberArr) this.btnPre.classList.add('hide');
         this.plate.style.backgroundImage = `url(${obj.url})`;
     }
     clickBtn(ev){
         if(ev.target.parentNode.classList.contains('btnNext')){
-            console.log('next')
+            this.nextIMG();
+            this.btnPre.classList.remove('hide');
         }
         if(ev.target.parentNode.classList.contains('btnPre')){
-
+            this.preIMG();
         }
     }
     pressBtnDown(ev){
@@ -49,5 +55,7 @@ export class gameView{
     pressBtnUp(ev){
         ev.target.parentNode.classList.remove('myBtn__press')
     }
+    startGame(){
 
+    }
 }

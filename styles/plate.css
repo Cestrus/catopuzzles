@@ -4,8 +4,7 @@
 .plate{
     height: calc(100vh - 300px);
     margin-top: 10px;
-    background-color: gray;
-    background-size: cover;
+    background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
 }
