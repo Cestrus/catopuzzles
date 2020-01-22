@@ -5,7 +5,7 @@
     top: 40px;
     margin: 5px;
 }
-.control{
+.control, .control_endGame{
     height: 40px;
     width: 40px;    
     border: 1px solid gray;
@@ -13,22 +13,20 @@
     background-position: center;
     background-repeat: no-repeat;
     border-radius: 12px;
-}
-.control__play{
-    background-image: url(../img/button/play.svg);
-    background-color: green;
     opacity: 0.8;
+}
+.control_play{
+    background-image: url(../img/button/play.svg);
+    background-color: green;    
 }    
-.control__pause{
+.control_pause{
     background-image: url(../img/button/pause.svg);
     background-color: red;
-    opacity: 0.8;
 }
-.control__endGame{
+.control_endGame{
     background-image: url(../img/button/end-game.svg);
     background-color: red;
-    opacity: 0.8;
 }
-.control__endGame--press{
+.control_endGame-press{
     background-color: rgb(184, 55, 55);
 }

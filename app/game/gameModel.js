@@ -3,22 +3,7 @@ export class gameModel{
         this.arrIMG = [];
         this.ifNotValidImg = 'https://img.novosti-n.org/upload/ukraine/415345.jpg';
         this.pointerIMG;
-        this.timer = this.timeCount;
 
-    }
-    timeCount(){
-       return setInterval(()=>{
-            let sec=0, min=0;
-            if(sec == 59) {
-                sec = 0;
-                min++;
-            }
-            else sec++;
-            return `${min} : ${sec}`;
-        }, 1000);
-    }
-    timerCountClear(){
-        clearInterval(this.timer);
     }
     loadIMG(){        
         return fetch('https://api.thecatapi.com/v1/images/search').
