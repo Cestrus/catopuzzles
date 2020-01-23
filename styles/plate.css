@@ -2,9 +2,19 @@
 @import url('puzzleImg.css'); */
 
 .plate{
-    height: calc(100vh - 300px);
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    height: 400px;
     margin-top: 10px;
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
+}
+.puzzlePice{
+    height: 100px;
+    border: 1px solid black;
+    box-sizing: border-box;
+    color: black;
+    font-weight: bold;
 }

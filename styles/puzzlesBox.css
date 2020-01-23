@@ -1,6 +1,11 @@
 .puzzlesBox{
-    height: 100px;
+    display: flex;
+    height: 120px;
     width: 100%;
     background-color: blue;
     margin-top: 10px;   
+}
+.puzzlePice{
+    height: 100px;
+    
 }
