@@ -29,7 +29,7 @@ export class gameModel{
         }        
         else {
             let obj =  {url: this.arrIMG[++this.pointerIMG].url, numberArr: this.pointerIMG};
-            return new Promise(function(resolve, reject){
+            return new Promise(function(resolve){
                resolve(obj);
             });
         } 

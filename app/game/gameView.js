@@ -34,8 +34,7 @@ export class gameView{
         this.puzzlesBox = document.querySelector('.puzzlesBox');
 
         this.nextIMG = nextIMG;
-        this.preIMG = preIMG;
-    
+        this.preIMG = preIMG;    
         this.timer = {
             sec: 1,
             min: 0,
@@ -72,20 +71,23 @@ export class gameView{
     clickIMG(){
         this.widthIMG = this.plate.offsetWidth;
         this.choosePanel.classList.add('hide'); 
-        this.renderPuzzlePlate();
-       
-        // this.animationStart().then(()=>{
+        this.renderPuzzlePlate();       
+        this.animationStart().then(()=>{
             this.controlPanel.classList.remove('hide');
             this.timeCounter.classList.remove('hide');
             if(!this.timer.id)this.timeCount();
-        // });
+        });
     }
-    //TODO
     animationStart(){
-        return new Promis(function(revolve, reject){
-            revolve(()=>{
-
-            })
+        return new Promise(function(resolve){          
+            let arr = [...document.querySelectorAll('.puzzlePice')];
+            let time = 0;
+            for(let i=0; i<arr.length; i++){
+                setTimeout(()=>{
+                    arr[i].classList.add('puzzlePice-animation');
+                }, time+=100);
+            }
+            setTimeout(()=>resolve(), 1700);
         })
     }
     timeCount(){       
@@ -133,26 +135,26 @@ export class gameView{
     renderPuzzlePlate(){       
         this.plate.innerHTML='';
         this.plate.style.width = this.widthIMG +'px';
-        let pusllePiceWidth = Math.floor(this.widthIMG / 4),
+        let puzzlePiceWidth = Math.floor(this.widthIMG / 4),
             left = 0, 
             top = 0;
         for(let i=0; i<4; i++){
             for(let j=0; j<4;j++){
-                this.plate.innerHTML += `<div class="puzzlePice" style=" width: ${pusllePiceWidth}px;
-                                                                     background-image: url(${this.urlIMG}); 
-                                                                     background-position: -${left}px -${top}px;"></div>`;
-                left+=(pusllePiceWidth + 1);
+                this.plate.innerHTML +=                                                               
+                                    `<div class="puzzlePiceBorder" style=" width: ${puzzlePiceWidth}px;">
+                                        <div class="puzzlePice" style=" width: ${puzzlePiceWidth}px;
+                                                                         background-image: url(${this.urlIMG});
+                                                                         background-size: ${this.plate.style.width};
+                                                                         background-position: -${left}px -${top}px;">
+                                        </div>;
+                                    </div>`;    
+                left+=(puzzlePiceWidth + 1);
             }
             left=0;
             top+=100;
         }
     }
-        // document.querySelectorAll('.puzzlePice').forEach(el=>{
-        //     el.style.width = Math.floor(this.widthIMG / 4) +'px';
-        //     el.style.backgroundImage = `url(${this.urlIMG})`;
-        //     el.style.backgroundPosition = `${} ${}`;
-            
-        // })
+
         
   
 }
