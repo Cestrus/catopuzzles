@@ -2,7 +2,6 @@ export class gameView{
     constructor(nextIMG, preIMG){
 
         // choose and time Panel 
-        this.choosePanel = document.querySelector('.choosePanel');
         this.timeCounter = document.querySelector('.timeCounter');
         this.myBtns = document.querySelectorAll('.myBtn');
         this.btnPre = document.querySelector('.btnPre');
@@ -15,8 +14,6 @@ export class gameView{
 
         //Plate
         this.plate = document.querySelector('.plate');
-        //this.img = null;
-
         this.plate.addEventListener('click', this.clickIMG.bind(this));
 
         //control Panel
@@ -44,8 +41,8 @@ export class gameView{
         this.widthIMG = 0;
 
     }
-    renderTimePanel(str){
-        this.timeCounter.innerHTML = `<p>${str}</p>`;
+    renderTimer(str){
+        this.timeCounter.innerText = `${str}`;
     }
     renderIMG(obj){        
         if(!obj.numberArr) this.btnPre.classList.add('hide');
@@ -70,11 +67,11 @@ export class gameView{
     }
     clickIMG(){
         this.widthIMG = this.plate.offsetWidth;
-        this.choosePanel.classList.add('hide'); 
+        this.btnPre.classList.add('hide');
+        this.btnNext.classList.add('hide')
         this.renderPuzzlePlate();       
         this.animationStart().then(()=>{
             this.controlPanel.classList.remove('hide');
-            this.timeCounter.classList.remove('hide');
             if(!this.timer.id)this.timeCount();
         });
     }
@@ -92,7 +89,7 @@ export class gameView{
     }
     timeCount(){       
         this.timer.id = setInterval(()=>{        
-            this.renderTimePanel(`${this.timer.min}:${this.timer.sec}`);
+            this.renderTimer(`${this.timer.min}:${this.timer.sec}`);
             if(this.timer.sec == 59){
                 this.timer.sec = 0;
                 this.timer.min++;
@@ -117,11 +114,11 @@ export class gameView{
         this.timer.id = null;
         this.puzzlesBox.innerHTML = '';        
         this.controlPanel.classList.add('hide');
-        this.choosePanel.classList.remove('hide');
-        this.timeCounter.classList.add('hide');
+        this.btnPre.classList.remove('hide');
+        this.btnNext.classList.remove('hide');
+        this.renderTimer('for start click on image');
         this.controlPaused.classList.add('control_pause');
         this.controlPaused.classList.remove('control_play');
-        this.renderTimePanel('0:0');
         this.timer.sec = 1;
         this.timer.min = 0;
         this.nextIMG();
