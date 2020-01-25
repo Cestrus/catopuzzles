@@ -1,11 +1,11 @@
 .puzzlesBox{
-    display: flex;
+    /* display: flex; */
     height: 120px;
     width: 100%;
     background-color: blue;
     margin-top: 10px;   
 }
-.puzzlePice{
+.puzzlePiece{
     height: 100px;
     
 }

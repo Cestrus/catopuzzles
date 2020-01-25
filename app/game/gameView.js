@@ -1,3 +1,5 @@
+// import {modalWindow} from '/app/modal.js';
+
 export class gameView{
     constructor(nextIMG, preIMG){
 
@@ -25,20 +27,29 @@ export class gameView{
         this.controlEndGame.addEventListener('click', this.pressBtnEndGame.bind(this));
         this.controlEndGame.addEventListener('mousedown', this.pressBtnEndGameDown.bind(this));
         this.controlEndGame.addEventListener('mouseup', this.pressBtnEndGameUp.bind(this));
-
-        
+            
         //Puzzles box
         this.puzzlesBox = document.querySelector('.puzzlesBox');
 
+        //Choose level modal
+        // this.cooseLevel = document.querySelector('.chooseLevel');
+        // document.querySelector('.btnLevel').addEventListener('click',()=>this.level = this.inpLevel.value);
+
         this.nextIMG = nextIMG;
-        this.preIMG = preIMG;    
+        this.preIMG = preIMG; 
+        this.isGameStarted = false;   
         this.timer = {
             sec: 1,
             min: 0,
             id: null 
         };
-        this.urlIMG = '';
-        this.widthIMG = 0;
+        this.img = {
+            url: '',
+            width: 0,
+            height: 400,
+            widthPiece: 0,
+            heightPiece: 0
+        }
 
     }
     renderTimer(str){
@@ -46,9 +57,9 @@ export class gameView{
     }
     renderIMG(obj){        
         if(!obj.numberArr) this.btnPre.classList.add('hide');
-        this.urlIMG = obj.url;
+        this.img.url = obj.url;
         this.plate.style.width = null;
-        this.plate.innerHTML = ` <img src="${this.urlIMG}" alt="" height="400" class="img">`;  
+        this.plate.innerHTML = ` <img src="${this.img.url}" alt="" height="400" class="img">`;  
     }
     clickBtnArrow(ev){
         if(ev.target.parentNode.classList.contains('btnNext')){
@@ -66,25 +77,49 @@ export class gameView{
         ev.target.parentNode.classList.remove('myBtn__press')
     }
     clickIMG(){
-        this.widthIMG = this.plate.offsetWidth;
-        this.btnPre.classList.add('hide');
-        this.btnNext.classList.add('hide')
-        this.renderPuzzlePlate();       
-        this.animationStart().then(()=>{
-            this.controlPanel.classList.remove('hide');
-            if(!this.timer.id)this.timeCount();
-        });
+        if(!this.isGameStarted){  
+            this.modalChooseLevel().
+                    then((level) => {
+                        if(level){
+                            this.isGameStarted = true;
+                            this.img.width = this.plate.offsetWidth;
+                            this.btnPre.classList.add('hide');
+                            this.btnNext.classList.add('hide');
+                            this.renderPuzzlePlate(level);
+                            this.animationStart().
+                                    then(()=>{
+                                        this.controlPanel.classList.remove('hide');
+                                        // TODO здесь ф-ция заполнения нижнего бокса кусочками 
+                                        if(!this.timer.id)this.timeCount();
+                                    });
+                        }
+                    });
+        }
+               
+        
+    }
+    modalChooseLevel(){
+        return new Promise(function(resolve){
+            $('#chooseLevelModal').modal(); // bootstrap function
+            document.querySelectorAll('.btnLvl').forEach(el=>{
+                el.addEventListener('click', (ev)=>{
+                    if(ev.target.classList.contains('btnLvl-4')) return resolve(4);
+                    if(ev.target.classList.contains('btnLvl-5')) return resolve(5);
+                    if(ev.target.classList.contains('btnLvl-6')) return resolve(6);
+                });
+            })
+        })
     }
     animationStart(){
         return new Promise(function(resolve){          
-            let arr = [...document.querySelectorAll('.puzzlePice')];
+            let arr = [...document.querySelectorAll('.puzzlePiece')];
             let time = 0;
             for(let i=0; i<arr.length; i++){
                 setTimeout(()=>{
-                    arr[i].classList.add('puzzlePice-animation');
+                    arr[i].classList.add('puzzlePiece-animation');
                 }, time+=100);
             }
-            setTimeout(()=>resolve(), 1700);
+            setTimeout(()=>resolve(), (arr.length*100)+100);
         })
     }
     timeCount(){       
@@ -121,6 +156,7 @@ export class gameView{
         this.controlPaused.classList.remove('control_play');
         this.timer.sec = 1;
         this.timer.min = 0;
+        this.isGameStarted = false;
         this.nextIMG();
     }
     pressBtnEndGameDown(){
@@ -129,27 +165,39 @@ export class gameView{
     pressBtnEndGameUp(){
         this.controlEndGame.classList.remove('control_endGame-press');
     }
-    renderPuzzlePlate(){       
+    makePuzzlePiece(widthPiece, heigthPiece, url, width, left=0, top=0){
+        return ` <div class="puzzlePiece" style=" width: ${widthPiece}px;
+                                        height: ${heigthPiece}px;
+                                        background-image: url(${url});
+                                        background-size: ${width};
+                                        background-position: -${left}px -${top}px;">`;
+    }
+
+    renderPuzzlePlate(level=4){              
         this.plate.innerHTML='';
-        this.plate.style.width = this.widthIMG +'px';
-        let puzzlePiceWidth = Math.floor(this.widthIMG / 4),
-            left = 0, 
+        this.plate.style.width = this.img.width +'px';
+        this.img.widthPiece = Math.floor(this.img.width / level);
+        this.img.heightPiece = Math.floor(this.img.height / level);
+        console.log(this.img);
+        let left = 0, 
             top = 0;
-        for(let i=0; i<4; i++){
-            for(let j=0; j<4;j++){
-                this.plate.innerHTML +=                                                               
-                                    `<div class="puzzlePiceBorder" style=" width: ${puzzlePiceWidth}px;">
-                                        <div class="puzzlePice" style=" width: ${puzzlePiceWidth}px;
-                                                                         background-image: url(${this.urlIMG});
-                                                                         background-size: ${this.plate.style.width};
-                                                                         background-position: -${left}px -${top}px;">
-                                        </div>;
-                                    </div>`;    
-                left+=(puzzlePiceWidth + 1);
+        for(let i=0; i<level; i++){
+            for(let j=0; j<level; j++){
+                this.plate.innerHTML += `<div class="puzzlePieceBorder" style=" width: ${this.img.widthPiece}px;
+                                                                                height: ${this.img.heightPiece}px;">
+                                                ${this.makePuzzlePiece(this.img.widthPiece, this.img.heightPiece, this.img.url, this.plate.style.width, left, top)}
+                                        </div>`;    
+                left+=(this.img.widthPiece + 1);
             }
             left=0;
-            top+=100;
+            top+=this.img.heightPiece+1;
         }
+    }
+    renderPuzzlesBox(widthPuzzlePiece){
+        for(let i=0; i<16; i++){
+            this.puzzlesBox.innerHTML += `<div class="" style="width: ${widthPuzzlePiece}">`
+        }
+        
     }
 
         

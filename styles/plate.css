@@ -9,22 +9,20 @@
     margin-top: 10px;
     background-size: contain;
     background-repeat: no-repeat;
-    background-position: center;
-    
+    background-position: center;    
 }
-.puzzlePiceBorder{
-    height: 100px;
+.puzzlePieceBorder{
     border: 1px solid black;
     box-sizing: border-box;
     background-color: lightgray;
 }
-.puzzlePice{
-    height: 100px;
+.puzzlePiece{
+    /* height: 100px; */
     /* border: 1px solid black;
     box-sizing: border-box; */
 }
 
-.puzzlePice-animation{
+.puzzlePiece-animation{
     transition: all 0.1s linear;
     transform: scaleX(0);
 }
