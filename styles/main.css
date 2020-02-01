@@ -1,8 +1,9 @@
 @import url('title.css');
-/* @import url('mainContainer.css'); */
 @import url('chooseAndTimePanel.css');
-@import url('plate.css');
-@import url('puzzlesPiecesBox.css');
+@import url('gamePlace.css');
+/* @import url('plate.css');
+@import url('left_rightPanel.css');
+@import url('puzzlesPiecesBox.css'); */
 @import url('control.css');
 @import url('chooseLevel.css');
 

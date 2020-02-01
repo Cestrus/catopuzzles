@@ -3,7 +3,11 @@
 export class gameModel{
     constructor(){
         this.arrIMG = [];
-        this.ifNotValidImg = 'https://img.novosti-n.org/upload/ukraine/415345.jpg';
+        this.ifNotValidImg = {
+            url: 'https://img.novosti-n.org/upload/ukraine/415345.jpg',
+            width: 365,
+            height: 470
+        }
         this.pointerIMG;
     }
     loadIMG(){        
@@ -19,9 +23,9 @@ export class gameModel{
             if(obj.url.match(/.jp/)){  // проверка на jpeg или jpg
                 this.arrIMG.push(obj);
                 this.pointerIMG = this.arrIMG.length-1;
-                return {url: this.arrIMG[this.pointerIMG].url, numberArr: this.pointerIMG};
+                return {img: this.arrIMG[this.pointerIMG], numberArr: this.pointerIMG};
             }
-            else return {url: this.ifNotValidImg, numberArr: this.pointerIMG}; 
+            else return {img: this.ifNotValidImg, numberArr: this.pointerIMG}; 
         })
     }
     nextIMG(){
@@ -29,14 +33,14 @@ export class gameModel{
             return this.getIMG();
         }        
         else {
-            let obj =  {url: this.arrIMG[++this.pointerIMG].url, numberArr: this.pointerIMG};
-            return new Promise(function(resolve){
-               resolve(obj);
+            // let obj =  {url: this.arrIMG[++this.pointerIMG].url, numberArr: this.pointerIMG};
+            return new Promise((resolve)=>{
+               resolve({img:this.arrIMG[++this.pointerIMG], numberArr: this.pointerIMG});
             });
         } 
     }
     preIMG(){
-        if(this.pointerIMG) return {url: this.arrIMG[--this.pointerIMG].url, numberArr: this.pointerIMG};
+        if(this.pointerIMG) return {img: this.arrIMG[--this.pointerIMG], numberArr: this.pointerIMG};
         return false;
     }
 

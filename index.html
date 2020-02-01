@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="styles/main.css">
 </head>
 <body>    
-    <div class="container mainContainer ">
+    <div class="container">
         <div class="row justify-content-center">
             <h1 class="title"></h1>
         </div>
@@ -24,23 +24,21 @@
             <div class="col align-self-center"><p class="timeCounter">for start click on image</p></div>
             <div class="col"><div class="myBtn btnNext"><div class="next"></div></div></div> 
         </div>
-        <div class="row justify-content-center ">
-            <!-- <div class="col leftPanel"></div> -->
-            <div class="col plate" data-toggle="modal"></div>
-            <!-- <div class="col rightPanel"></div> -->
-        </div>
-     
-     
+        <div class="row justify-content-center gamePlace">
+            <div class=" piecesBox piecesBox--left"></div>
+            <div class="centerBox"><div class="plate" data-toggle="modal"></div></div>
+            <div class=" piecesBox piecesBox--right"></div>
+        </div>       
     </div> 
-    <div class="container puzzlesPiecesBox">
-            <!-- <div class=" col">
+    <!-- <div class="container puzzlesPiecesBox">
+            <div class=" col">
                 <div class="row">
                     <div class="col"><div class=""></div></div>
                     <div class="col align-self-center"></div>
                     <div class="col"><div class=""></div></div>
                 </div>
-            </div> -->
-    </div>  
+            </div>
+    </div>   -->
     <div class="controlMain hide">
         <div class="control control_pause"></div>
         <div class="control_endGame"></div>           
@@ -56,7 +54,7 @@
                     </button>
                 </div>
                 <div class="modal-body myModalBody row justify-content-around">
-                    <!-- <button type="button" class="btn btn-primary btnLvl btnLvl-3" data-dismiss="modal">3x3</button> -->
+                    <button type="button" class="btn btn-primary btnLvl btnLvl-3" data-dismiss="modal">3x3</button>
                     <button type="button" class="btn btn-primary btnLvl btnLvl-4" data-dismiss="modal">4x4</button>
                     <button type="button" class="btn btn-primary btnLvl btnLvl-5" data-dismiss="modal">5x5</button>
                     <button type="button" class="btn btn-primary btnLvl btnLvl-6" data-dismiss="modal">6x6</button>

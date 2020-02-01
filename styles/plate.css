@@ -1,14 +1,24 @@
-.plate{
+.centerBox{
+    grid-area: centerBox;
+    /* height: calc(100vh - 200px); */
+}
+.plate{    
     position: relative;
     display: flex;
     flex-wrap: wrap;
-    height: 400px;
-    margin-top: 10px;
+    /* max-height: 500px;
+    max-width: 600px; */
+    /* padding: 0; */
+    /* margin-left: auto;
+    margin-right: auto; */
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;    
 }
-.puzzlePieceBorder{
+.img{
+    margin: 0 auto;
+}
+.pieceBorder{
     border: 1px solid black;
     box-sizing: border-box;
     background-color: lightgray;
@@ -18,6 +28,7 @@
     /* border: 1px solid black;
     box-sizing: border-box; */
     background-repeat: no-repeat;
+    align-items: flex-start;
 }
 
 .puzzlePiece-animation{

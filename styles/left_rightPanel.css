@@ -1,0 +1,17 @@
+.piecesBox--left{
+    grid-area: piecesBox--left;
+    margin-left: -70px;
+} 
+.piecesBox--right{
+    grid-area: piecesBox--right;
+    justify-content: flex-end;
+    margin-right: -70px;
+}
+.piecesBox{
+    position: relative;
+    display: flex;
+    width: calc(100% + 70px);
+    flex-wrap: wrap;
+    /* align-items: flex-start; */
+    align-content: flex-start;
+}
