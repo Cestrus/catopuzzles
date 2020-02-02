@@ -1,5 +1,3 @@
-//import {random} from'/app/generator.js';
-
 export class gameView{
     constructor(nextIMG, preIMG){
 
@@ -56,6 +54,7 @@ export class gameView{
             widthPiece: 0,
             heightPiece: 0
         }
+        console.log('in constructor',this.isGameStarted );
     }
     renderTimer(str){
         this.timeCounter.innerText = `${str}`;
@@ -97,7 +96,9 @@ export class gameView{
         ev.target.parentNode.classList.remove('myBtn__press')
     }
     clickIMG(){ // клик по картинке
-        if(!this.isGameStarted){  
+        console.log('in clickIMG before if',this.isGameStarted );
+        if(!this.isGameStarted){
+            console.log('in clickIMG after if',this.isGameStarted );  
             this.modalChooseLevel().
                 then(level => {
                     if(level){
@@ -107,7 +108,9 @@ export class gameView{
                         this.btnPre.classList.add('hide');
                         this.btnNext.classList.add('hide');
                         this.arrPieces = [];
+                        this.plate.removeAttribute('data-target');
                         this.renderPuzzlePlate(level);
+                        console.log('in clickIMG before animation',this.isGameStarted );
                         this.animationStart().
                             then(()=>{
                                 this.controlPanel.classList.remove('hide'); 
@@ -122,16 +125,17 @@ export class gameView{
     }
     modalChooseLevel(){ //выбор уровня
         return new Promise(function(resolve){
-            $('#chooseLevelModal').modal(); // bootstrap function
+            //$('#chooseLevelModal').modal(); // bootstrap function
             document.querySelectorAll('.btnLvl').forEach(el=>{
                 el.addEventListener('click', (ev)=>{
-                    if(ev.target.classList.contains('btnLvl-3')) return resolve(3);
-                    if(ev.target.classList.contains('btnLvl-4')) return resolve(4);
-                    if(ev.target.classList.contains('btnLvl-5')) return resolve(5);
-                    if(ev.target.classList.contains('btnLvl-6')) return resolve(6);
+                    if(ev.target.classList.contains('btnLvl-3')) resolve(3);
+                    if(ev.target.classList.contains('btnLvl-4')) resolve(4);
+                    if(ev.target.classList.contains('btnLvl-5')) resolve(5);
+                    if(ev.target.classList.contains('btnLvl-6')) resolve(6);
                 });
-            })
-        })
+            });
+            document.querySelector('.close').addEventListener('click', ()=>resolve(0));
+        });
     }
     animationStart(){ //стартовая анимация 
         return new Promise(function(resolve){          
@@ -170,6 +174,7 @@ export class gameView{
         ev.target.classList.toggle('control_play');
     }
     pressBtnEndGame(){ //конец игры
+        console.log('in press btn end game started',this.isGameStarted );
         clearInterval(this.timer.id);
         this.timer.id = null;
         this.piecesBoxLeft.innerHTML = '';  
@@ -180,9 +185,11 @@ export class gameView{
         this.renderTimer('for start click on image');
         this.controlPaused.classList.add('control_pause');
         this.controlPaused.classList.remove('control_play');
+        this.plate.setAttribute('data-target', '#staticBackdrop');
         this.timer.sec = 1;
         this.timer.min = 0;
         this.isGameStarted = false;
+        console.log('in press btn end game ended',this.isGameStarted );
         this.nextIMG();
     }
     pressBtnEndGameDown(){

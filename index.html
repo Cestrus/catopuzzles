@@ -26,25 +26,17 @@
         </div>
         <div class="row justify-content-center gamePlace">
             <div class=" piecesBox piecesBox--left"></div>
-            <div class="centerBox"><div class="plate" data-toggle="modal"></div></div>
+            <div class="centerBox"><div class="plate" data-toggle="modal" data-target="#staticBackdrop"></div></div>
             <div class=" piecesBox piecesBox--right"></div>
         </div>       
     </div> 
-    <!-- <div class="container puzzlesPiecesBox">
-            <div class=" col">
-                <div class="row">
-                    <div class="col"><div class=""></div></div>
-                    <div class="col align-self-center"></div>
-                    <div class="col"><div class=""></div></div>
-                </div>
-            </div>
-    </div>   -->
+    <!-- Панель управления-->
     <div class="controlMain hide">
         <div class="control control_pause"></div>
         <div class="control_endGame"></div>           
     </div> 
     <!-- Модальное окно -->
-    <div class="modal " id="chooseLevelModal" tabindex="-1" role="dialog">
+    <div class="modal fade" id="staticBackdrop" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered chooseLevel" role="document">
             <div class="modal-content">
                 <div class="modal-header">
