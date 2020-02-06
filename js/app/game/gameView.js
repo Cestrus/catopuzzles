@@ -17,6 +17,7 @@ export class gameView{
         this.centerBox = document.querySelector('.centerBox');
         this.plate = document.querySelector('.plate');
         this.plate.addEventListener('click', this.clickIMG.bind(this));
+        this.plate.addEventListener('drop',  this.dropPiece.bind(this));
         
         //pieces box
         this.piecesBox = document.querySelector('.piecesBox');
@@ -54,7 +55,6 @@ export class gameView{
             widthPiece: 0,
             heightPiece: 0
         }
-        console.log('in constructor',this.isGameStarted );
     }
     renderTimer(str){
         this.timeCounter.innerText = `${str}`;
@@ -66,19 +66,11 @@ export class gameView{
         this.plate.classList.remove('final');       
         if(!obj.numberArr) this.btnPre.classList.add('hide');
         this.img.url = obj.img.url;
-        this.plate.style.width = null;
+        this.plate.style.width = null
         this.plate.style.height = null;
-        this.plate.innerHTML = (obj.img.height>obj.img.width)?`<img src="${this.img.url}" alt="" height="${this.centerBox.offsetHeight}" class="img">`:
+        console.log('before plateH: ', this.plate.offsetHeight, 'plateW: ', this.plate.offsetWidth);
+        this.plate.innerHTML = (obj.img.height>=obj.img.width)?`<img src="${this.img.url}" alt="" height="${this.centerBox.offsetHeight}" class="img">`:
                                                         `<img src="${this.img.url}" alt="" width="${this.centerBox.offsetWidth}"class="img">`;
-                                                        
-        // if(obj.img.height > obj.img.width){
-        //     this.plate.innerHTML = (obj.img.height > this.centerBox.offsetHeight)?`<img src="${this.img.url}" alt="" height="${this.centerBox.offsetHeight}" class="img">`:
-        //     `<img src="${this.img.url}" alt="" height="${obj.img.height}" class="img">`;
-        // }
-        // else{
-        //     this.plate.innerHTML = (obj.img.width > this.centerBox.offsetWidth)?`<img src="${this.img.url}" alt="" height="${this.centerBox.offsetWidth}" class="img">`:
-        //     `<img src="${this.img.url}" alt="" height="${obj.img.width}" class="img">`;
-        // }
     }
     clickBtnArrow(ev){
         if(ev.target.parentNode.classList.contains('btnNext')){
@@ -96,21 +88,18 @@ export class gameView{
         ev.target.parentNode.classList.remove('myBtn__press')
     }
     clickIMG(){ // клик по картинке
-        console.log('in clickIMG before if',this.isGameStarted );
-        if(!this.isGameStarted){
-            console.log('in clickIMG after if',this.isGameStarted );  
+        if(!this.isGameStarted){  
             this.modalChooseLevel().
                 then(level => {
                     if(level){
                         this.isGameStarted = true;
-                        this.img.width = this.plate.offsetWidth;
-                        this.img.height = this.plate.offsetHeight;
+                        this.img.width = document.querySelector('img').offsetWidth;
+                        this.img.height = document.querySelector('img').offsetHeight;
                         this.btnPre.classList.add('hide');
                         this.btnNext.classList.add('hide');
                         this.arrPieces = [];
                         this.plate.removeAttribute('data-target');
                         this.renderPuzzlePlate(level);
-                        console.log('in clickIMG before animation',this.isGameStarted );
                         this.animationStart().
                             then(()=>{
                                 this.controlPanel.classList.remove('hide'); 
@@ -159,7 +148,7 @@ export class gameView{
             else this.timer.sec++;             
         }, 1000);
     }
-    clickControlPaused(ev){
+    clickControlPaused(ev){ // пауза
         if(ev.target.classList.contains('control_pause')){
             clearInterval(this.timer.id);
             this.piecesBoxLeft.classList.add('hide');
@@ -174,7 +163,6 @@ export class gameView{
         ev.target.classList.toggle('control_play');
     }
     pressBtnEndGame(){ //конец игры
-        console.log('in press btn end game started',this.isGameStarted );
         clearInterval(this.timer.id);
         this.timer.id = null;
         this.piecesBoxLeft.innerHTML = '';  
@@ -189,7 +177,6 @@ export class gameView{
         this.timer.sec = 1;
         this.timer.min = 0;
         this.isGameStarted = false;
-        console.log('in press btn end game ended',this.isGameStarted );
         this.nextIMG();
     }
     pressBtnEndGameDown(){
@@ -259,8 +246,12 @@ export class gameView{
         ev.preventDefault();
     }
     dropPiece(ev){
+        console.log(ev);
         ev.preventDefault();
-
+        let data = ev.dataTransfer.getData('piece');
+        console.log(data);
+        ev.target.appendChild(document.querySelector(data));
+        //if(ev) this.check();
     }
     //TODO проверка совпаденя кусочков с их местами
     check(){
@@ -274,11 +265,11 @@ export class gameView{
         if(isRight) this.animationFinal().bind(this);
     }
 
-    animationFinal(){ // финальная анимация
-        this.plate.innerHTML = '';
-        this.plate.innerHTML = ` <img src="${this.img.url}" alt="" height="${this.img.height}" class="img">`;
-        this.plate.classList.add('final');
-        setTimeout(()=> this.pressBtnEndGame(), 2000);
-    }
+    // animationFinal(){ // финальная анимация
+    //     this.plate.innerHTML = '';
+    //     this.plate.innerHTML = ` <img src="${this.img.url}" alt="" height="${this.img.height}" class="img">`;
+    //     this.plate.classList.add('final');
+    //     setTimeout(()=> this.pressBtnEndGame(), 2000);
+    // }
 
 }

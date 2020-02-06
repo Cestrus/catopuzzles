@@ -25,10 +25,12 @@
     height: 40px;
     border-radius: 50%;
     background-image: radial-gradient(yellow, red);
+    margin-left: auto;
+    margin-right: auto;
 }
 .btnNext{
-    margin-right:0 ;
-    margin-left: auto;
+    /* margin-right:0 ;
+    margin-left: auto; */
 }
 .myBtn__press{
     background-image: radial-gradient(red, yellow);
