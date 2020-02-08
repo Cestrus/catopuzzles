@@ -17,7 +17,6 @@ export class gameView{
         this.centerBox = document.querySelector('.centerBox');
         this.plate = document.querySelector('.plate');
         this.plate.addEventListener('click', this.clickIMG.bind(this));
-        //this.plate.addEventListener('drop',  this.dropPiece.bind(this)); 
         
         //pieces box
         this.piecesBox = document.querySelector('.piecesBox');
@@ -42,8 +41,6 @@ export class gameView{
         //Other
         this.nextIMG = nextIMG;
         this.preIMG = preIMG; 
-        this.idBorerList = "";
-
         this.isGameStarted = false; 
         this.arrPieces = [];
         this.timer = {
@@ -64,14 +61,11 @@ export class gameView{
     }
     renderIMG(obj){ //прорисовка картинки
         this.plate.innerHTML = ""; 
-        // console.log('centerBoxH :', this.centerBox.offsetHeight, 'centerBoxW :', this.centerBox.offsetWidth);
-        // console.log('obj.height :', obj.img.height, 'obj.width :', obj.img.width);
         this.plate.classList.remove('final');       
         if(!obj.numberArr) this.btnPre.classList.add('hide');
         this.img.url = obj.img.url;
         this.plate.style.width = null
         this.plate.style.height = null;
-        // console.log('before plateH: ', this.plate.offsetHeight, 'plateW: ', this.plate.offsetWidth);
         this.plate.innerHTML = (obj.img.height>=obj.img.width)?`<img src="${this.img.url}" alt="" height="${this.centerBox.offsetHeight}" class="img">`:
                                                         `<img src="${this.img.url}" alt="" width="${this.centerBox.offsetWidth}"class="img">`;
     }
@@ -208,12 +202,10 @@ export class gameView{
             left=0;
             top+=this.img.heightPiece+1;
         }
-        this.idBorerList = document.querySelectorAll('.pieceBorder');
-        this.idBorerList.forEach(el=>{
+        document.querySelectorAll('.pieceBorder').forEach(el=>{
             el.addEventListener('dragover', this.dragover.bind(this));            
             el.addEventListener('drop', this.dropPiece.bind(this));
         });
-        console.log(this.idBorerList); 
     }    
     makePuzzlePiece(widthPiece, heigthPiece, url, width, left=0, top=0){ // прорисовка кусочка пазла, класс pieceID для нумерации кусочка
         let str = ` <div class="puzzlePiece pieceID_${this.arrPieces.length}" draggable=true style=" width: ${widthPiece}px; 
@@ -267,18 +259,20 @@ export class gameView{
     }
     //TODO проверка совпаденя кусочков с их местами
     check(){
+       
         let isRight = false;         
         for(let i=0; i<this.arrPieces.length; i++){
-            
-
+            let piece = document.querySelector(`.pieceID_${i}`);
+            if(!piece.parentNode.classList.contains(`ID_${i}`)) break;
+            if(i == this.arrPieces.length-1 && piece.parentNode.classList.contains(`ID_${i}`)) isRight = true;
+        }
         if(isRight) this.animationFinal().bind(this);
     }
-
-    // animationFinal(){ // финальная анимация
-    //     this.plate.innerHTML = '';
-    //     this.plate.innerHTML = ` <img src="${this.img.url}" alt="" height="${this.img.height}" class="img">`;
-    //     this.plate.classList.add('final');
-    //     setTimeout(()=> this.pressBtnEndGame(), 2000);
-    // }
+    animationFinal(){ // финальная анимация
+        this.plate.innerHTML = '';
+        this.plate.innerHTML = ` <img src="${this.img.url}" alt="" height="${this.img.height}" class="img">`;
+        this.plate.classList.add('final');
+        setTimeout(()=> this.pressBtnEndGame(), 2000);
+    }
 
 }
