@@ -1,5 +1,3 @@
-//import {generator} from'/app/generator.js';
-
 export class gameModel{
     constructor(){
         this.arrIMG = [];
@@ -33,7 +31,6 @@ export class gameModel{
             return this.getIMG();
         }        
         else {
-            // let obj =  {url: this.arrIMG[++this.pointerIMG].url, numberArr: this.pointerIMG};
             return new Promise((resolve)=>{
                resolve({img:this.arrIMG[++this.pointerIMG], numberArr: this.pointerIMG});
             });

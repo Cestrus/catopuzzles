@@ -5,10 +5,7 @@ export class gameController{
     constructor(){
         this.model = new gameModel();
         this.view = new gameView(this.renderNextIMG.bind(this), 
-                                this.renderPreIMG.bind(this)
-                                                                
-                                );
-
+                                this.renderPreIMG.bind(this));
         this.renderNextIMG();
     }
     renderNextIMG(){
