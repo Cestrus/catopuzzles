@@ -17,15 +17,17 @@ export class gameView{
         this.centerBox = document.querySelector('.centerBox');
         this.plate = document.querySelector('.plate');
         this.plate.addEventListener('click', this.clickIMG.bind(this));
-        this.plate.addEventListener('drop',  this.dropPiece.bind(this));
+        //this.plate.addEventListener('drop',  this.dropPiece.bind(this)); 
         
         //pieces box
         this.piecesBox = document.querySelector('.piecesBox');
         this.piecesBoxLeft = document.querySelector('.piecesBox--left');
         this.piecesBoxRight = document.querySelector('.piecesBox--right');
 
-        this.piecesBox.addEventListener('dragover', this.dragover.bind(this));            
-        this.piecesBox.addEventListener('drop',  this.dropPiece.bind(this));        
+        this.piecesBoxLeft.addEventListener('dragover', this.dragover.bind(this)); 
+        this.piecesBoxRight.addEventListener('dragover', this.dragover.bind(this));
+        this.piecesBoxLeft.addEventListener('drop', this.dropPiece.bind(this));      
+        this.piecesBoxRight.addEventListener('drop', this.dropPiece.bind(this));
 
         //control Panel
         this.controlPanel = document.querySelector('.controlMain');
@@ -40,6 +42,7 @@ export class gameView{
         //Other
         this.nextIMG = nextIMG;
         this.preIMG = preIMG; 
+        this.idBorerList = "";
 
         this.isGameStarted = false; 
         this.arrPieces = [];
@@ -59,16 +62,16 @@ export class gameView{
     renderTimer(str){
         this.timeCounter.innerText = `${str}`;
     }
-    renderIMG(obj){
+    renderIMG(obj){ //прорисовка картинки
         this.plate.innerHTML = ""; 
-        console.log('centerBoxH :', this.centerBox.offsetHeight, 'centerBoxW :', this.centerBox.offsetWidth);
-        console.log('obj.height :', obj.img.height, 'obj.width :', obj.img.width);
+        // console.log('centerBoxH :', this.centerBox.offsetHeight, 'centerBoxW :', this.centerBox.offsetWidth);
+        // console.log('obj.height :', obj.img.height, 'obj.width :', obj.img.width);
         this.plate.classList.remove('final');       
         if(!obj.numberArr) this.btnPre.classList.add('hide');
         this.img.url = obj.img.url;
         this.plate.style.width = null
         this.plate.style.height = null;
-        console.log('before plateH: ', this.plate.offsetHeight, 'plateW: ', this.plate.offsetWidth);
+        // console.log('before plateH: ', this.plate.offsetHeight, 'plateW: ', this.plate.offsetWidth);
         this.plate.innerHTML = (obj.img.height>=obj.img.width)?`<img src="${this.img.url}" alt="" height="${this.centerBox.offsetHeight}" class="img">`:
                                                         `<img src="${this.img.url}" alt="" width="${this.centerBox.offsetWidth}"class="img">`;
     }
@@ -104,7 +107,7 @@ export class gameView{
                             then(()=>{
                                 this.controlPanel.classList.remove('hide'); 
                                 this.piecesBoxLeft.classList.remove('hide');
-                                this.piecesBoxRight.classList.remove('hide');                                    
+                                this.piecesBoxRight.classList.remove('hide');                         
                                 this.renderPiecesBox(); 
                                 if(!this.timer.id)this.timeCount();
                             });
@@ -114,7 +117,6 @@ export class gameView{
     }
     modalChooseLevel(){ //выбор уровня
         return new Promise(function(resolve){
-            //$('#chooseLevelModal').modal(); // bootstrap function
             document.querySelectorAll('.btnLvl').forEach(el=>{
                 el.addEventListener('click', (ev)=>{
                     if(ev.target.classList.contains('btnLvl-3')) resolve(3);
@@ -133,6 +135,7 @@ export class gameView{
             for(let i=0; i<arr.length; i++){
                 setTimeout(()=>{
                     arr[i].classList.add('puzzlePiece-animation');
+                    arr[i].remove();
                 }, time+=50);
             }
             setTimeout(()=>resolve(), (arr.length*100)+50);
@@ -141,7 +144,7 @@ export class gameView{
     timeCount(){       
         this.timer.id = setInterval(()=>{        
             this.renderTimer(`${this.timer.min}:${this.timer.sec}`);
-            if(this.timer.sec == 59){
+            if(this.timer.sec === 59){
                 this.timer.sec = 0;
                 this.timer.min++;
             }
@@ -205,10 +208,12 @@ export class gameView{
             left=0;
             top+=this.img.heightPiece+1;
         }
-        document.querySelectorAll('.pieceBorder').forEach(el=>{
+        this.idBorerList = document.querySelectorAll('.pieceBorder');
+        this.idBorerList.forEach(el=>{
             el.addEventListener('dragover', this.dragover.bind(this));            
             el.addEventListener('drop', this.dropPiece.bind(this));
         });
+        console.log(this.idBorerList); 
     }    
     makePuzzlePiece(widthPiece, heigthPiece, url, width, left=0, top=0){ // прорисовка кусочка пазла, класс pieceID для нумерации кусочка
         let str = ` <div class="puzzlePiece pieceID_${this.arrPieces.length}" draggable=true style=" width: ${widthPiece}px; 
@@ -220,47 +225,51 @@ export class gameView{
         return str;
     }
     renderPiecesBox(){ //прорисовка боксов для кусочков пазла и их случайное заполнение 
-        let arr=[];
+        let arr=[];        
         for (let i = 0; i < this.arrPieces.length; i++) {arr[i] = i;}
         for(let i=0; i<this.arrPieces.length; i++){
             if(i<Math.ceil(this.arrPieces.length/2)){
-                this.piecesBoxLeft.innerHTML += `<div style="margin: 1px; ">
-                                                        ${this.arrPieces[arr.splice(Math.floor(Math.random()*arr.length), 1)]}
-                                                    </div>`;
+                this.piecesBoxLeft.innerHTML += `<div class="fant">${this.arrPieces[arr.splice(Math.floor(Math.random()*arr.length), 1)]}</div>`;
             }
             else{
-                this.piecesBoxRight.innerHTML += `<div style="margin: 1px;">
-                                                    ${this.arrPieces[arr.splice(Math.floor(Math.random()*arr.length), 1)]}
-                                                </div>`;
+                this.piecesBoxRight.innerHTML += `<div class="fant">${this.arrPieces[arr.splice(Math.floor(Math.random()*arr.length), 1)]}</div>`;
             }
         }
         document.querySelectorAll(`.puzzlePiece`).forEach(el=>{
             el.addEventListener('dragstart', this.dragPiece.bind(this));
         });        
     }
-    //TODO DnD
+    //Drag and Drop
     dragPiece(ev){
-        ev.dataTransfer.setData('piece', `${ev.target.className.replace(/pieceID_/gi)}`);
+        ev.dataTransfer.setData('piece', ev.target.className.match(/pieceID_\d\d?/));
+        ev.target.parentNode.classList.remove('fant');
     }
     dragover(ev){
         ev.preventDefault();
     }
     dropPiece(ev){
-        console.log(ev);
         ev.preventDefault();
         let data = ev.dataTransfer.getData('piece');
-        console.log(data);
-        ev.target.appendChild(document.querySelector(data));
-        //if(ev) this.check();
+        if(ev.target.classList.contains('piecesBox')){ 
+            if(!ev.target.classList.contains('puzzlePiece')){
+                let div = document.createElement('div');// оборачиваем в fant
+                div.classList.add('fant');
+                div.appendChild(document.querySelector(`.${data}`));
+                ev.target.appendChild(div);
+            }
+        }
+        else if(ev.target.classList.contains('pieceBorder')){
+            if(!ev.target.classList.contains('puzzlePiece')){
+                ev.target.appendChild(document.querySelector(`.${data}`));
+            }
+        }
+        this.check();
     }
     //TODO проверка совпаденя кусочков с их местами
     check(){
-        let isRight=false;
-            // idBorerList = document.querySelectorAll('.ID_'),
+        let isRight = false;         
+        for(let i=0; i<this.arrPieces.length; i++){
             
-        // for(let i=0; i<this.arrPieces.length; i++){
-        //     document.querySelector
-        // }
 
         if(isRight) this.animationFinal().bind(this);
     }

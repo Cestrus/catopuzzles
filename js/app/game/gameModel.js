@@ -7,7 +7,7 @@ export class gameModel{
             url: 'https://img.novosti-n.org/upload/ukraine/415345.jpg',
             width: 365,
             height: 470
-        }
+        };
         this.pointerIMG;
     }
     loadIMG(){        
@@ -29,7 +29,7 @@ export class gameModel{
         })
     }
     nextIMG(){
-        if(!this.arrIMG.length || this.pointerIMG == this.arrIMG.length-1){
+        if(!this.arrIMG.length || this.pointerIMG === this.arrIMG.length-1){
             return this.getIMG();
         }        
         else {
