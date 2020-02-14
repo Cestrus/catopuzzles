@@ -1,5 +1,5 @@
-import {gameModel} from "/js/app/game/gameModel.js";
-import {gameView} from "/js/app/game/gameView.js";
+import {gameModel} from "./gameModel.js";
+import {gameView} from "./gameView.js";
 
 export class gameController{
     constructor(){

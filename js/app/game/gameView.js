@@ -257,7 +257,7 @@ export class gameView{
         }
         this.check();
     }
-    //TODO проверка совпаденя кусочков с их местами
+    //проверка совпаденя кусочков с их местами
     check(){
        
         let isRight = false;         
@@ -266,7 +266,7 @@ export class gameView{
             if(!piece.parentNode.classList.contains(`ID_${i}`)) break;
             if(i == this.arrPieces.length-1 && piece.parentNode.classList.contains(`ID_${i}`)) isRight = true;
         }
-        if(isRight) this.animationFinal().bind(this);
+        if(isRight) this.animationFinal();
     }
     animationFinal(){ // финальная анимация
         this.plate.innerHTML = '';

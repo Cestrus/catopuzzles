@@ -1,5 +1,5 @@
-import { titleModel } from "/js/app/title/titleModel.js";
-import { titleView } from "/js/app/title/titleView.js";
+import { titleModel } from "./titleModel.js";
+import { titleView } from "./titleView.js";
 
 export class titleController{
     constructor() {
