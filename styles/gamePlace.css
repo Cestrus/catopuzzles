@@ -3,7 +3,7 @@
 
 .gamePlace{
     width: 100%;
-    height: calc(100vh - 200px);
+    height: calc(100vh - 220px);
     display: grid;
     grid-template-areas: "piecesBox--left centerBox piecesBox--right";
     grid-template-columns: 2fr 3fr 2fr;
