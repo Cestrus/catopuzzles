@@ -194,7 +194,7 @@ export class gameView{
         for(let i=0; i<level; i++){
             for(let j=0; j<level; j++){
                 this.plate.innerHTML += `<div class="pieceBorder ID_${id++}" style=" width: ${this.img.widthPiece}px;
-                                                                                        height: ${this.img.heightPiece}px;">
+                                                                                     height: ${this.img.heightPiece}px;">
                                                 ${this.makePuzzlePiece(this.img.widthPiece, this.img.heightPiece, this.img.url, this.plate.style.width, left, top)}
                                         </div>`;    
                 left+=(this.img.widthPiece + 1);
@@ -259,7 +259,6 @@ export class gameView{
     }
     //проверка совпаденя кусочков с их местами
     check(){
-       
         let isRight = false;         
         for(let i=0; i<this.arrPieces.length; i++){
             let piece = document.querySelector(`.pieceID_${i}`);
@@ -269,8 +268,9 @@ export class gameView{
         if(isRight) this.animationFinal();
     }
     animationFinal(){ // финальная анимация
-        this.plate.innerHTML = '';
-        this.plate.innerHTML = ` <img src="${this.img.url}" alt="" height="${this.img.height}" class="img">`;
+        document.querySelectorAll('.pieceBorder').forEach(el=>{
+           el.classList.remove('pieceBorder');
+        });
         this.plate.classList.add('final');
         setTimeout(()=> this.pressBtnEndGame(), 2000);
     }
